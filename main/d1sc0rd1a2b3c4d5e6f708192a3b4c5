@@ -1,20 +1,24 @@
 do
     local Tabs = _G.PhiPhai and _G.PhiPhai.Tabs
-    local Tab = Tabs and (Tabs.Info or Tabs.Discord)
+    local Notify = _G.PhiPhai and _G.PhiPhai.Notify
+    local Tab = Tabs and Tabs.Info   -- hoặc Farm, Combat, ...
     if not Tab then
-        warn("[Discord] no Tabs — loader chưa export")
+        warn("[Module] Tabs missing")
         return
     end
 
-    local GB = Tab:AddLeftGroupbox("Discord")
-    GB:AddLabel("PhiPhai v3")
-    GB:AddToggle("PP_Discord_Test", {
-        Text = "Visible Toggle",
+    local GB = Tab:AddLeftGroupbox("Tên section")
+
+    GB:AddToggle("Flag_Unique", {
+        Text = "Tên toggle",
         Default = false,
         Callback = function(v)
-            if _G.PhiPhai.Notify then
-                _G.PhiPhai.Notify("Discord", v and "ON" or "OFF", 2)
-            end
+            if Notify then Notify("Title", v and "ON" or "OFF", 2) end
         end,
+    })
+
+    GB:AddButton({
+        Text = "Nút",
+        Func = function() end,
     })
 end
