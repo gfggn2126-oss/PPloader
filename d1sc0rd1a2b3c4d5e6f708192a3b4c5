@@ -1,38 +1,20 @@
 do
     local Tabs = _G.PhiPhai and _G.PhiPhai.Tabs
-    local Tab = Tabs and (Tabs.Info or Tabs.Discord or Tabs.Main)
+    local Tab = Tabs and (Tabs.Info or Tabs.Discord)
     if not Tab then
-        warn("[Discord] Tabs.Info not found — chạy hub PhiPhai trước")
+        warn("[Discord] no Tabs — loader chưa export")
         return
     end
 
-    local function Notify(title, text, dur)
-        if _G.PhiPhai and _G.PhiPhai.Notify then
-            pcall(_G.PhiPhai.Notify, title, text, dur or 2)
-        end
-    end
-
-    local GB
-    if type(Tab.AddLeftGroupbox) == "function" then
-        GB = Tab:AddLeftGroupbox("Discord")
-    else
-        GB = Tab:AddGroupbox({ Side = "Left", Name = "Discord" })
-    end
-
-    GB:AddLabel("PhiPhai v3\nBuilt and test")
-
-    GB:AddButton({
-        Text = "Copy Discord Invite",
-        Func = function()
-            local link = "https://discord.gg/6y7TpYTBkW"
-            if setclipboard then
-                setclipboard(link)
-            elseif toclipboard then
-                toclipboard(link)
+    local GB = Tab:AddLeftGroupbox("Discord")
+    GB:AddLabel("PhiPhai v3")
+    GB:AddToggle("PP_Discord_Test", {
+        Text = "Visible Toggle",
+        Default = false,
+        Callback = function(v)
+            if _G.PhiPhai.Notify then
+                _G.PhiPhai.Notify("Discord", v and "ON" or "OFF", 2)
             end
-            Notify("Discord", "Invite link copied", 3)
         end,
     })
-
-    
 end
